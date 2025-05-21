@@ -24,7 +24,7 @@ namespace EkzamenWPF.dbcontext
 
         // private const string ConnectionString = "Data Source=DESKTOP-703LNUO\\SQLEXPRESS;Initial Catalog=Test4;Integrated Security=True;";
 
-        // private const string ConnectionString = "Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+        // private const string ConnectionString = "Server=DESKTOP-703LNUO\SQLEXPRESS;Database=Test4;Trusted_Connection=True;";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
