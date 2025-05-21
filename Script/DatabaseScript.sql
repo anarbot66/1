@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON;
 GO
 
-CREATE TABLE dbo.Users (
+CREATE TABLE Users (
     UserId    INT IDENTITY(1,1) NOT NULL,
     UserName  NVARCHAR(50)  NOT NULL,
     Password  NVARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE dbo.Users (
 );
 GO
 
-CREATE TABLE dbo.ProductTypes (
+CREATE TABLE ProductTypes (
     ProductTypeId INT IDENTITY(1,1) NOT NULL,
     Name          NVARCHAR(100) NULL,
     Coefficient   FLOAT         NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE dbo.ProductTypes (
 );
 GO
 
-CREATE TABLE dbo.MaterialTypes (
+CREATE TABLE MaterialTypes (
     MaterialTypeId INT IDENTITY(1,1) NOT NULL,
     Name           NVARCHAR(100) NULL,
     LossPercent    FLOAT         NOT NULL,
@@ -31,20 +31,20 @@ CREATE TABLE dbo.MaterialTypes (
 );
 GO
 
-CREATE TABLE dbo.Materials (
+CREATE TABLE Materials (
     MaterialId      INT           IDENTITY(1,1) NOT NULL,
     Name            NVARCHAR(100) NOT NULL,
     QuantityInStock DECIMAL(18,2) NOT NULL CONSTRAINT DF_Materials_QuantityInStock DEFAULT(0),
     MinimumAllowed  DECIMAL(18,2) NOT NULL CONSTRAINT DF_Materials_MinimumAllowed DEFAULT(0),
-    [Type]          NVARCHAR(50)  NOT NULL CONSTRAINT DF_Materials_Type DEFAULT(N'Ñûðü¸'),
+    [Type]          NVARCHAR(50)  NOT NULL CONSTRAINT DF_Materials_Type DEFAULT(N'Ð¡Ñ‹Ñ€ÑŒÑ‘'),
     Price           DECIMAL(18,2) NOT NULL CONSTRAINT DF_Materials_Price DEFAULT(0),
-    Unit            NVARCHAR(20)  NOT NULL CONSTRAINT DF_Materials_Unit DEFAULT(N'øò.'),
+    Unit            NVARCHAR(20)  NOT NULL CONSTRAINT DF_Materials_Unit DEFAULT(N'ÑˆÑ‚.'),
     QuantityInPack  INT           NOT NULL CONSTRAINT DF_Materials_QuantityInPack DEFAULT(1),
     CONSTRAINT PK_Materials PRIMARY KEY CLUSTERED (MaterialId)
 );
 GO
 
-CREATE TABLE dbo.MaterialHistory (
+CREATE TABLE MaterialHistory (
     MaterialHistoryId INT           IDENTITY(1,1) NOT NULL,
     MaterialId        INT           NOT NULL,
     ChangeDate        DATETIME2(7)  NOT NULL CONSTRAINT DF_MaterialHistory_ChangeDate DEFAULT(SYSUTCDATETIME()),
@@ -56,7 +56,7 @@ CREATE TABLE dbo.MaterialHistory (
 );
 GO
 
-CREATE TABLE dbo.Products (
+CREATE TABLE Products (
     ProductId       INT IDENTITY(1,1) NOT NULL,
     Article         NVARCHAR(50)  NOT NULL,
     Name            NVARCHAR(100) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE dbo.Products (
 );
 GO
 
-CREATE TABLE dbo.ProductMaterials (
+CREATE TABLE ProductMaterials (
     ProductMaterialId INT           IDENTITY(1,1) NOT NULL,
     ProductId         INT           NOT NULL,
     MaterialId        INT           NOT NULL,
@@ -77,21 +77,21 @@ CREATE TABLE dbo.ProductMaterials (
 GO
 
 
-CREATE TABLE dbo.SupplierTypes (
+CREATE TABLE SupplierTypes (
     SupplierTypeId INT IDENTITY(1,1) NOT NULL,
     Name           NVARCHAR(100) NOT NULL,
     CONSTRAINT PK_SupplierTypes PRIMARY KEY CLUSTERED (SupplierTypeId)
 );
 GO
 
-CREATE TABLE dbo.PartnerTypes (
+CREATE TABLE PartnerTypes (
     PartnerTypeId INT IDENTITY(1,1) NOT NULL,
     Name          NVARCHAR(100) NOT NULL,
     CONSTRAINT PK_PartnerTypes PRIMARY KEY CLUSTERED (PartnerTypeId)
 );
 GO
 
-CREATE TABLE dbo.Suppliers (
+CREATE TABLE Suppliers (
     SupplierId     INT IDENTITY(1,1) NOT NULL,
     SupplierTypeId INT         NOT NULL,
     Name           NVARCHAR(200) NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE dbo.Suppliers (
 );
 GO
 
-CREATE TABLE dbo.SupplierMaterialHistory (
+CREATE TABLE SupplierMaterialHistory (
     SupplierMaterialHistoryId INT IDENTITY(1,1) NOT NULL,
     SupplierId                INT         NOT NULL,
     MaterialId                INT         NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE dbo.SupplierMaterialHistory (
 );
 GO
 
-CREATE TABLE dbo.Partners (
+CREATE TABLE Partners (
     PartnerId        INT IDENTITY(1,1) NOT NULL,
     PartnerTypeId    INT         NOT NULL,
     CompanyName      NVARCHAR(200) NOT NULL,
@@ -137,17 +137,17 @@ CREATE TABLE dbo.Partners (
 );
 GO
 
-CREATE TABLE dbo.PartnerSalesLocations (
+CREATE TABLE PartnerSalesLocations (
     SalesLocationId INT IDENTITY(1,1) NOT NULL,
     PartnerId       INT         NOT NULL,
-    LocationType    NVARCHAR(50) NOT NULL, -- "ðîçíèöà","îïò","èíòåðíåò" è ò.ï.
+    LocationType    NVARCHAR(50) NOT NULL, -- "Ñ€Ð¾Ð·Ð½Ð¸Ñ†Ð°","Ð¾Ð¿Ñ‚","Ð¸Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚" Ð¸ Ñ‚.Ð¿.
     Details         NVARCHAR(500) NULL,
     CONSTRAINT PK_PartnerSalesLocations PRIMARY KEY CLUSTERED (SalesLocationId),
     CONSTRAINT FK_PSL_Partner FOREIGN KEY (PartnerId) REFERENCES dbo.Partners (PartnerId)
 );
 GO
 
-CREATE TABLE dbo.PartnerSalesHistory (
+CREATE TABLE PartnerSalesHistory (
     SalesHistoryId INT IDENTITY(1,1) NOT NULL,
     PartnerId      INT         NOT NULL,
     ProductId      INT         NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE dbo.PartnerSalesHistory (
 );
 GO
 
-CREATE TABLE dbo.PartnerRatingHistory (
+CREATE TABLE PartnerRatingHistory (
     RatingHistoryId INT IDENTITY(1,1) NOT NULL,
     PartnerId       INT         NOT NULL,
     ChangeDate      DATETIME2   NOT NULL CONSTRAINT DF_PRH_ChangeDate DEFAULT(SYSUTCDATETIME()),
@@ -174,7 +174,7 @@ CREATE TABLE dbo.PartnerRatingHistory (
 );
 GO
 
-CREATE TABLE dbo.PartnerDiscounts (
+CREATE TABLE PartnerDiscounts (
     DiscountId      INT IDENTITY(1,1) NOT NULL,
     PartnerId       INT         NOT NULL,
     MinVolume       DECIMAL(18,2) NOT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE dbo.PartnerDiscounts (
 );
 GO
 
-CREATE TABLE dbo.Managers (
+CREATE TABLE Managers (
     ManagerId INT IDENTITY(1,1) NOT NULL,
     UserId    INT         NOT NULL,
     HireDate  DATETIME2   NOT NULL CONSTRAINT DF_Managers_HireDate DEFAULT(SYSUTCDATETIME()),
@@ -196,7 +196,7 @@ CREATE TABLE dbo.Managers (
 GO
 
 
-CREATE TABLE dbo.Orders (
+CREATE TABLE Orders (
     OrderId                INT IDENTITY(1,1) NOT NULL,
     PartnerId              INT         NOT NULL,
     ManagerId              INT         NOT NULL,
@@ -211,7 +211,7 @@ CREATE TABLE dbo.Orders (
 );
 GO
 
-CREATE TABLE dbo.OrderItems (
+CREATE TABLE OrderItems (
     OrderItemId         INT IDENTITY(1,1) NOT NULL,
     OrderId             INT         NOT NULL,
     ProductId           INT         NOT NULL,
@@ -225,7 +225,7 @@ CREATE TABLE dbo.OrderItems (
 );
 GO
 
-CREATE TABLE dbo.Deliveries (
+CREATE TABLE Deliveries (
     DeliveryId    INT IDENTITY(1,1) NOT NULL,
     OrderId       INT         NOT NULL,
     Method        NVARCHAR(50) NULL,
@@ -236,7 +236,7 @@ CREATE TABLE dbo.Deliveries (
 );
 GO
 
-CREATE TABLE dbo.ProductHistory (
+CREATE TABLE ProductHistory (
     ProductHistoryId INT           IDENTITY(1,1) NOT NULL,
     ProductId        INT           NOT NULL,
     ChangeDate       DATETIME2     NOT NULL CONSTRAINT DF_PH_ChangeDate DEFAULT(SYSUTCDATETIME()),
@@ -248,7 +248,7 @@ CREATE TABLE dbo.ProductHistory (
 );
 GO
 
-CREATE TABLE dbo.Employees (
+CREATE TABLE Employees (
     EmployeeId     INT IDENTITY(1,1) NOT NULL,
     UserId         INT         NOT NULL,
     FullName       NVARCHAR(200) NOT NULL,
@@ -264,7 +264,7 @@ CREATE TABLE dbo.Employees (
 );
 GO
 
-CREATE TABLE dbo.Equipment (
+CREATE TABLE Equipment (
     EquipmentId INT IDENTITY(1,1) NOT NULL,
     Name        NVARCHAR(200) NOT NULL,
     Description NVARCHAR(500) NULL,
@@ -272,7 +272,7 @@ CREATE TABLE dbo.Equipment (
 );
 GO
 
-CREATE TABLE dbo.EmployeeEquipmentAccess (
+CREATE TABLE EmployeeEquipmentAccess (
     AccessId    INT IDENTITY(1,1) NOT NULL,
     EmployeeId  INT         NOT NULL,
     EquipmentId INT         NOT NULL,
@@ -283,7 +283,7 @@ CREATE TABLE dbo.EmployeeEquipmentAccess (
 );
 GO
 
-CREATE TABLE dbo.AccessCards (
+CREATE TABLE AccessCards (
     CardId     INT IDENTITY(1,1) NOT NULL,
     EmployeeId INT         NOT NULL,
     CardNumber NVARCHAR(50) NOT NULL,
@@ -295,7 +295,7 @@ CREATE TABLE dbo.AccessCards (
 );
 GO
 
-CREATE TABLE dbo.Doors (
+CREATE TABLE Doors (
     DoorId      INT IDENTITY(1,1) NOT NULL,
     Location    NVARCHAR(200) NOT NULL,
     Description NVARCHAR(500) NULL,
@@ -303,7 +303,7 @@ CREATE TABLE dbo.Doors (
 );
 GO
 
-CREATE TABLE dbo.AccessLogs (
+CREATE TABLE AccessLogs (
     LogId   INT IDENTITY(1,1) NOT NULL,
     CardId  INT         NOT NULL,
     DoorId  INT         NOT NULL,
